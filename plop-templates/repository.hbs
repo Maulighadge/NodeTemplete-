@@ -1,0 +1,50 @@
+import prisma from '../../common/prisma';
+import { {{pascalCase name}}CreateInput, {{pascalCase name}}UpdateInput } from './{{dashCase name}}.type';
+import { PaginationInput, buildPaginatedResponse } from '../../utils';
+
+export const {{pascalCase name}}Repository = {
+  async create(data: {{pascalCase name}}CreateInput) {
+    return (prisma as any).{{camelCase name}}.create({ data });
+  },
+
+  async getAll() {
+    return (prisma as any).{{camelCase name}}.findMany({
+      orderBy: { createdAt: 'desc' },
+    });
+  },
+
+  async getPaginated(pagination: PaginationInput) {
+    const { page = 1, limit = 10 } = pagination;
+    const skip = (page - 1) * limit;
+
+    const [data, total] = await prisma.$transaction([
+      (prisma as any).{{camelCase name}}.findMany({
+        skip,
+        take: limit,
+        orderBy: { createdAt: 'desc' },
+      }),
+      (prisma as any).{{camelCase name}}.count(),
+    ]);
+
+    return buildPaginatedResponse(data, total, page, limit);
+  },
+
+  async getById(id: string) {
+    return (prisma as any).{{camelCase name}}.findUnique({
+      where: { id },
+    });
+  },
+
+  async update(id: string, data: {{pascalCase name}}UpdateInput) {
+    return (prisma as any).{{camelCase name}}.update({
+      where: { id },
+      data,
+    });
+  },
+
+  async delete(id: string) {
+    return (prisma as any).{{camelCase name}}.delete({
+      where: { id },
+    });
+  },
+};

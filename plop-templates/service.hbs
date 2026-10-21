@@ -1,0 +1,35 @@
+import { {{pascalCase name}}Repository } from './{{dashCase name}}.repository';
+import { {{pascalCase name}}CreateInput, {{pascalCase name}}UpdateInput } from './{{dashCase name}}.type';
+import { AppError, PaginationInput } from '../../utils';
+
+export const {{pascalCase name}}Service = {
+  async create(data: {{pascalCase name}}CreateInput) {
+    return {{pascalCase name}}Repository.create(data);
+  },
+
+  async getAll() {
+    return {{pascalCase name}}Repository.getAll();
+  },
+
+  async getPaginated(pagination: PaginationInput) {
+    return {{pascalCase name}}Repository.getPaginated(pagination);
+  },
+
+  async getById(id: string) {
+    const item = await {{pascalCase name}}Repository.getById(id);
+    if (!item) {
+      throw new AppError(404, '{{pascalCase name}} not found');
+    }
+    return item;
+  },
+
+  async update(id: string, data: {{pascalCase name}}UpdateInput) {
+    await this.getById(id);
+    return {{pascalCase name}}Repository.update(id, data);
+  },
+
+  async delete(id: string) {
+    await this.getById(id);
+    return {{pascalCase name}}Repository.delete(id);
+  },
+};

@@ -1,0 +1,22 @@
+import { Router } from 'express';
+import { {{pascalCase name}}Controller } from './{{dashCase name}}.controller';
+import { {{pascalCase name}}Validator } from './{{dashCase name}}.validator';
+import { validateRequest } from '../../middlewares';
+
+const router = Router();
+
+router.post(
+  '/o/{{dashCase name}}',
+  validateRequest({{pascalCase name}}Validator.create),
+  {{pascalCase name}}Controller.create,
+);
+router.get('/o/{{dashCase name}}', {{pascalCase name}}Controller.getAll);
+router.get('/o/{{dashCase name}}/:id', {{pascalCase name}}Controller.getById);
+router.put(
+  '/o/{{dashCase name}}/:id',
+  validateRequest({{pascalCase name}}Validator.update),
+  {{pascalCase name}}Controller.update,
+);
+router.delete('/o/{{dashCase name}}/:id', {{pascalCase name}}Controller.delete);
+
+export default router;

@@ -1,0 +1,6 @@
+export interface {{pascalCase name}}CreateInput {
+  name: string;
+  description?: string;
+}
+
+export type {{pascalCase name}}UpdateInput = Partial<{{pascalCase name}}CreateInput>;
